@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 app.get('/api', (req, res) => {
     res.json({
         mensaje: "Bienvenido al Microservicio de Cartera",
-        endpoints: ["/api/clientes", "/api/resumen"]
+        endpoints: ["/api/clientes", "/api/resumen", "/api/clientes (POST)"]
     });
 });
 
@@ -72,6 +72,31 @@ app.put('/api/clientes/:id', async (req, res) => {
         res.status(error.response?.status || 500).json({
             status: "error",
             message: "No se pudo actualizar la deuda",
+            detail: error.message
+        });
+    }
+});
+
+// Endpoint propio 4: Crear un nuevo cliente (POST)
+app.post('/api/clientes', async (req, res) => {
+    const { nombre, deuda } = req.body;
+
+    if (!nombre || deuda === undefined) {
+        return res.status(400).json({ status: "error", message: "Faltan datos (nombre o deuda)" });
+    }
+
+    try {
+        const response = await axios.post(EXTERNAL_API_URL, { nombre, deuda });
+        res.status(201).json({
+            status: "success",
+            message: "Cliente creado correctamente",
+            data: response.data
+        });
+    } catch (error) {
+        console.error('Error al crear cliente:', error.message);
+        res.status(error.response?.status || 500).json({
+            status: "error",
+            message: "No se pudo crear el cliente",
             detail: error.message
         });
     }

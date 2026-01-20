@@ -4,6 +4,8 @@ const deudaTotalEl = document.getElementById('deuda-total');
 const promedioDeudaEl = document.getElementById('promedio-deuda');
 const updateModal = document.getElementById('update-modal');
 const updateForm = document.getElementById('update-form');
+const addModal = document.getElementById('add-modal');
+const addForm = document.getElementById('add-form');
 
 async function fetchData() {
     try {
@@ -62,6 +64,41 @@ function openModal(id, nombre, deuda) {
 function closeModal() {
     updateModal.classList.remove('active');
 }
+
+// Lógica para Crear
+function openAddModal() {
+    addForm.reset();
+    addModal.classList.add('active');
+}
+
+function closeAddModal() {
+    addModal.classList.remove('active');
+}
+
+addForm.onsubmit = async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('add-name').value;
+    const deuda = document.getElementById('add-debt').value;
+
+    try {
+        const res = await fetch('/api/clientes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, deuda: parseFloat(deuda) })
+        });
+
+        const result = await res.json();
+        if (result.status === 'success') {
+            alert('¡Cliente creado con éxito!');
+            closeAddModal();
+            fetchData();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        alert('Error al crear el cliente.');
+    }
+};
 
 updateForm.onsubmit = async (e) => {
     e.preventDefault();
