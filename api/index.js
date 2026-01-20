@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public')); // Servir archivos estáticos
 
 const EXTERNAL_API_URL = process.env.EXTERNAL_API_URL || 'https://venta-omega.vercel.app/cartera';
 

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartera Dashboard | Premium</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glass-bg"></div>
+    
+    <main class="dashboard">
+        <header>
+            <h1>Gestión de Cartera <span>Clientes</span></h1>
+            <p>Monitoreo en tiempo real de saldos y clientes.</p>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Clientes</h3>
+                <p id="total-clientes">--</p>
+                <div class="stat-icon">👥</div>
+            </div>
+            <div class="stat-card highlight">
+                <h3>Deuda Total</h3>
+                <p id="deuda-total">$0.00</p>
+                <div class="stat-icon">💰</div>
+            </div>
+            <div class="stat-card">
+                <h3>Promedio de Deuda</h3>
+                <p id="promedio-deuda">$0.00</p>
+                <div class="stat-icon">📊</div>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <div class="table-header">
+                <h2>Lista de Clientes</h2>
+                <button onclick="fetchData()" class="btn-refresh">Actualizar Datos</button>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Deuda ($)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-table">
+                        <!-- Clientes cargados dinámicamente -->
+                        <tr><td colspan="4" style="text-align:center;">Cargando clientes...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para Actualizar -->
+    <div id="update-modal" class="modal">
+        <div class="modal-content">
+            <h3>Actualizar Deuda</h3>
+            <p>Cliente: <span id="client-name-modal">--</span></p>
+            <form id="update-form">
+                <input type="hidden" id="client-id-modal">
+                <div class="form-group">
+                    <label>Nuevo Monto ($)</label>
+                    <input type="number" id="new-debt" step="0.01" required placeholder="Ej: 500.00">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
